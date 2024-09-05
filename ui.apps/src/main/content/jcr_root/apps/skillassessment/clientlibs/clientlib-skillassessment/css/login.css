@@ -31,7 +31,7 @@
         .login__submit {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #fece4c;
             border: none;
             border-radius: 4px;
             color: white;
@@ -41,5 +41,5 @@
         }
 
         .login__submit:hover {
-            background-color: #45a049;
+            background-color: #003946;
         }
