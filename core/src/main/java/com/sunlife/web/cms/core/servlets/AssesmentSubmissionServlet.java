@@ -62,16 +62,14 @@ public class AssesmentSubmissionServlet extends SlingAllMethodsServlet {
 
 	@Reference
 	private MessageGatewayService messageGatewayService;
-	
+
 	@Reference
 	private UserService userService;
 	@Reference
 	private JobManager jobManager;
-	
+
 	@Reference
 	private CustomEmailService emailService;
-	
-	
 
 	@Override
 	protected void doPost(final SlingHttpServletRequest request, final SlingHttpServletResponse resp)
@@ -88,19 +86,18 @@ public class AssesmentSubmissionServlet extends SlingAllMethodsServlet {
 				.getResourceResolver(Constant.ServiceUser.SKILLASSESSMENT_USER)) {
 			assessmentReport = assessmentService.generateAssessmentReport(resolver, assessment);
 			storedinRepository = assessmentService.storeAssessmentReport(resolver, assessmentReport);
-	
+
 			if (Objects.nonNull(assessmentReport) && storedinRepository) {
-			
-				createSlingJobForSendingEmailNotification(resolver,assessmentReport);
+
+				createSlingJobForSendingEmailNotification(resolver, assessmentReport);
 				deleteUserInformationFromSystem(resolver, assessment);
-				
-				
+
 				String response = new Gson().toJson(assessmentReport);
 				resp.setStatus(201);
 				resp.getWriter().println(response);
 
 			} else {
-				
+
 				resp.setStatus(500);
 				Map<String, Object> errorResponse = new HashMap<>();
 				errorResponse.put(ResponseConstants.STATUS, 500);
@@ -118,31 +115,56 @@ public class AssesmentSubmissionServlet extends SlingAllMethodsServlet {
 		}
 
 	}
-	
-	
-	private void deleteUserInformationFromSystem(ResourceResolver resolver,Assessment assessment) throws RepositoryException, PersistenceException {
-		//delete user account
+
+	/**
+	 * Method deletes user account in aem jcr repository.
+	 * 
+	 * @param resolver
+	 * @param assessment
+	 * @throws RepositoryException
+	 * @throws PersistenceException
+	 */
+	private void deleteUserInformationFromSystem(ResourceResolver resolver, Assessment assessment)
+			throws RepositoryException, PersistenceException {
+
 		userService.deleteUser(resolver, assessment.getUser().getId());
-		Resource resource = resolver.getResource(Constant.Paths.UPCOMING_ASSESSMENT_PATH+assessment.getUser().getId());
+		Resource resource = resolver
+				.getResource(Constant.Paths.UPCOMING_ASSESSMENT_PATH + assessment.getUser().getId());
 		if (Objects.nonNull(resource)) {
 			resolver.delete(resource);
 		}
 		resolver.commit();
-		unscheduleExistingJob(assessment.getUser().getId());	
+		unscheduleExistingJob(assessment.getUser().getId());
 	}
-	
+
+	/**
+	 * This method removes any scheduled sling job which was created to delete user
+	 * account automatically after a given time interval, in case user didn't
+	 * appeared for assessment.
+	 * 
+	 * @param userId
+	 */
 	private void unscheduleExistingJob(String userId) {
 		jobManager.getScheduledJobs().stream()
-		.filter(job -> StringUtils.equals(job.getJobTopic(), SlingJob.ASSESSMENT_EXPIRATION_TOPIC) && StringUtils
-				.equals((String) job.getJobProperties().get(GenericConstant.USER_ID), userId))
-		.forEach(ScheduledJobInfo::unschedule);
+				.filter(job -> StringUtils.equals(job.getJobTopic(), SlingJob.ASSESSMENT_EXPIRATION_TOPIC)
+						&& StringUtils.equals((String) job.getJobProperties().get(GenericConstant.USER_ID), userId))
+				.forEach(ScheduledJobInfo::unschedule);
 	}
-	
-	private void createSlingJobForSendingEmailNotification(ResourceResolver resolver,AssessmentReport assessmentReport) {
-		Resource resource = resolver.getResource(Constant.Paths.UPCOMING_ASSESSMENT_PATH+assessmentReport.getUserId());
-		
+
+	/**
+	 * Method creates a sling job for sending the assessment result to participants
+	 * over email.
+	 * 
+	 * @param resolver
+	 * @param assessmentReport
+	 */
+	private void createSlingJobForSendingEmailNotification(ResourceResolver resolver,
+			AssessmentReport assessmentReport) {
+		Resource resource = resolver
+				.getResource(Constant.Paths.UPCOMING_ASSESSMENT_PATH + assessmentReport.getUserId());
+
 		if (Objects.nonNull(resource)) {
-			Map<String,Object> payload = new HashMap<>();
+			Map<String, Object> payload = new HashMap<>();
 			ValueMap valueMap = resource.adaptTo(ValueMap.class);
 			String[] leadsEmail = (String[]) valueMap.get("leadsEmail");
 			String recruiter = (String) valueMap.get("recruiter");
@@ -153,18 +175,15 @@ public class AssesmentSubmissionServlet extends SlingAllMethodsServlet {
 			payload.put("lastName", assessmentReport.getUserLastName());
 			payload.put("score", assessmentReport.getPercentageObtained());
 			payload.put("status", assessmentReport.isPassed());
-			jobManager.addJob(SlingJob.ASSESSMENT_REPORT_EMAIL_TOPIC,payload);	
+			jobManager.addJob(SlingJob.ASSESSMENT_REPORT_EMAIL_TOPIC, payload);
 		}
-		
+
 	}
-	
-	
+
 	private String getRequestBody(SlingHttpServletRequest request) throws IOException {
 		try (BufferedReader reader = request.getReader()) {
 			return reader.lines().collect(Collectors.joining());
 		}
 	}
-
-	
 
 }

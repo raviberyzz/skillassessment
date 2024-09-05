@@ -35,6 +35,7 @@ public class UserAuthenticationServlet extends SlingAllMethodsServlet {
 			throws ServletException, IOException {
 		resp.setContentType("application/json");
 		Map<String, Object> responseMap = new HashMap<>();
+		request.getSession().getId();
 		Cookie cookie = request.getCookie("login-token");
 		if (Objects.nonNull(cookie) && StringUtils.isNotEmpty(cookie.getValue())) {
 			resp.setStatus(200);

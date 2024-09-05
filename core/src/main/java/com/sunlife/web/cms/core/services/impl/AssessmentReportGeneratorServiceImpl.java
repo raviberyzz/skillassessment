@@ -24,11 +24,19 @@ import com.sunlife.web.cms.core.constants.Constant;
 import com.sunlife.web.cms.core.constants.Constant.Paths;
 import com.sunlife.web.cms.core.services.AssessmentReportGeneratorService;
 import com.sunlife.web.cms.core.utils.SlingResourceUtil;
-
+/**
+ * @author Ravi Ranjan
+ */
 @Component(service = AssessmentReportGeneratorService.class, immediate = true)
 public class AssessmentReportGeneratorServiceImpl implements AssessmentReportGeneratorService {
-
+	
+	/**
+	 * Threshold assessment passing score
+	 */
 	private static final double PASSING_SCORE = 50.0;
+	/**
+	 * Score format
+	 */
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
 	@Override

@@ -35,6 +35,9 @@ import com.sunlife.web.cms.core.services.UserService;
 
 import static com.day.cq.wcm.api.NameConstants.NT_PAGE;
 
+/**
+ * @author Ravi Ranjan
+ */
 @Component(service = Filter.class, property = {
 		EngineConstants.SLING_FILTER_SCOPE + "=" + EngineConstants.FILTER_SCOPE_REQUEST,
 		EngineConstants.SLING_FILTER_RESOURCETYPES + "=" + NT_PAGE,

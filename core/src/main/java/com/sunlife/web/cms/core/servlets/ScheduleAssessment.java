@@ -47,6 +47,9 @@ import com.sunlife.web.cms.core.services.UserService;
 import com.sunlife.web.cms.core.utils.RunModeUtil;
 import com.sunlife.web.cms.core.utils.SlingResourceUtil;
 
+/**
+ * @author Ravi Ranjan
+ */
 @Component(service = { Servlet.class })
 @SlingServletPaths(value = "/bin/schedule")
 @ServiceDescription("Schedule Upcoming Assessment")
@@ -174,6 +177,15 @@ public class ScheduleAssessment extends SlingAllMethodsServlet {
 				.at(getDateIncrementedByMinutes(baseDate, count)).add();
 	}
 
+	/**
+	 * Method is used to get the 24 hrs date incremented by a minute. This is done
+	 * to prevent jcr repository persistance exception if two sling jobs tried to
+	 * commit in jcr at the same time.
+	 * 
+	 * @param baseDate
+	 * @param minutesToAdd
+	 * @return
+	 */
 	private Date getDateIncrementedByMinutes(Date baseDate, int minutesToAdd) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(baseDate);
