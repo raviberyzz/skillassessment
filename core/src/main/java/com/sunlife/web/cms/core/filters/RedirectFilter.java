@@ -69,11 +69,13 @@ public class RedirectFilter implements Filter {
 		} else if (isDefaultPage(resourcePath)) {
 
 			String userName = slingRequest.getUserPrincipal().getName();
+			
 
 			try (ResourceResolver resolver = resolverService.getResourceResolver(ServiceUser.SKILLASSESSMENT_USER)) {
 
 				if (userService.isRecruiter(resolver, userName)) {
 					String recruiterPage = Paths.RECRUITER_PAGE_URL;
+					setCookie(slingResponse,StringUtils.EMPTY,StringUtils.EMPTY,userName);
 					slingResponse.sendRedirect(recruiterPage);
 
 				} else if (userService.isParticipant(resolver, userName)) {

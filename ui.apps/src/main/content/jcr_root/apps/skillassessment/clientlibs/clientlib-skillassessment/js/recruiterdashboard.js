@@ -47,7 +47,7 @@ function scheduleInterview() {
     
     const payload = {
         participants: participants,
-        recruiter: "recruiter@sunlife.com",
+        recruiter: getCookieValue("email"),
         leadsEmail: leadsEmail,
         technology: technology
     };
