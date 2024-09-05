@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "skillassessment.core:skill-assessment-user=skill-assessment-user"
+  ]
+}

@@ -1,0 +1,7 @@
+#base=js
+login.js
+header.js
+assessmentscreen.js
+recruiterdashboard.js
+
+

@@ -1,0 +1,49 @@
+<sly data-sly-use.assessmentModel="com.sunlife.web.cms.core.models.AssessmentModel"></sly>
+<sly data-sly-set.assessments="${assessmentModel.assessments}"/>
+
+<div class="login-page">
+      <div class="container startScreen">
+        <h2>${assessmentModel.technologyTitle} Skill Assessment</h2>
+
+        <div class="btn">
+        	<p>You will be presented with ${assessments.size} questions.</p>
+            <p>During exam you are advised not to press back button ,reload or cancel the examination.Else the examination will be marked as invalid</p>
+
+
+          <button class="StartQuiz" onclick="startQuiz()">Start</button>
+        </div>
+      </div>
+    </div>
+    <div class="login-page">
+        <div class="playground" data-technology-value="${assessmentModel.technology}" data-assessment-duration="${assessmentModel.duration}" data-technology-title="${assessmentModel.technologyTitle}" data-show-result="${assessmentModel.showResult}">
+        <div class="quizHeader">
+          <div>
+            <span id="questionCount">1</span>of
+			<span id="totalQuestion">${assessments.size}</span>Question
+          </div>
+            <div id="timer" class="timer"></div>
+        </div>
+        <sly data-sly-list.assessments="${assessments}">
+          <div class="quizBody ${assessmentsList.count>1?'quizBody-hidden':''}">
+          <div id="${assessments.id}">${assessments.question @context='html'}</div>
+          <ul id="quizOptions" class="quizOptions" data-sly-list="${assessments.options}">
+          <li id="${itemList.count}"><div>${item}</div></li>
+
+			</ul>
+        </div>
+       </sly>
+
+
+        <div class="quizFooter">
+ 		  <button id="prevButton">Previous</button>
+          <button id="nextButton">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="login-page">
+      <div class="endScreen">
+        <p>Thank You<span id="resultUserName"></span></p>
+        <p>You will get Result from our Team shortly</p>
+      </div>
+    </div>
+    

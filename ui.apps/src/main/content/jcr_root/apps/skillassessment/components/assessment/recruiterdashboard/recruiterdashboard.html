@@ -1,0 +1,37 @@
+<sly data-sly-use.dashboard="com.sunlife.web.cms.core.models.DashboardModel"></sly>
+<div class="dashboard">
+        <h2 class="dashboard__title">Recruiter Dashboard</h2>
+        
+        <div id="participants-container" class="participants">
+            <div class="participant">
+                <label class="dashboard__label">First Name:</label>
+                <input type="text" class="dashboard__input participant__first-name" placeholder="Enter first name" required>
+                
+                <label class="dashboard__label">Last Name:</label>
+                <input type="text" class="dashboard__input participant__last-name" placeholder="Enter last name" required>
+                
+                <label class="dashboard__label">Email:</label>
+                <input type="email" class="dashboard__input participant__email" placeholder="Enter email address" required>
+
+                <button onclick="removeParticipant(this)" class="participant__remove-button">Remove Participant</button>
+            </div>
+        </div>
+        
+        <button onclick="addParticipant()" class="dashboard__button participants__add-button">Add Another Participant</button>
+        
+        <label for="technology" class="dashboard__label">Technology:</label>
+        <select id="technology" class="dashboard__select" required >
+            <option value="">Select Technology</option>
+            <option data-sly-repeat.technologies=${dashboard.technologies} value="${technologies['value']}"> ${technologies['title']}</option>
+
+
+        </select>
+        
+        <label for="leads" class="dashboard__label">Select Technology Leads:</label>
+        <select id="leads" class="dashboard__select" multiple required>
+            <option data-sly-repeat.leads=${dashboard.leads} value="${leads['value']}">${leads['title']} (${leads['value']})</option>
+
+        </select>
+        
+        <button onclick="scheduleInterview()" class="dashboard__button">Schedule Interview</button>
+    </div>

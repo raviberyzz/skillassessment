@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/skillassessment" mode="merge"/>
+    <filter root="/content/skillassessment" mode="merge"/>
+    <filter root="/content/dam/skillassessment" mode="merge">
+        <exclude pattern="/content/dam/skillassessment(/.*)?"/>
+        <include pattern="/content/dam/skillassessment/jcr:content(/.*)?"/>
+        <include pattern="/content/dam/skillassessment/emailtemplate(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/skillassessment/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/skillassessment" mode="merge"/>
+</workspaceFilter>

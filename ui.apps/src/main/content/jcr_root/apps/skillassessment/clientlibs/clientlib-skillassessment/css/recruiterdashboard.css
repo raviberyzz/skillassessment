@@ -1,0 +1,73 @@
+  .dashboard {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard__title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .dashboard__label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .dashboard__input, .dashboard__select, .dashboard__button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .dashboard__input:focus, .dashboard__select:focus, .dashboard__button:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .dashboard__button {
+            background-color: #febe10;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dashboard__button:hover {
+            background-color: #febe10;
+        }
+
+        .participant {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+        }
+
+        .participant__remove-button {
+            background-color: #003946;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .participant__remove-button:hover {
+            background-color: #003946;
+        }
+
+        .participants__add-button {
+            margin-top: 10px;
+        }

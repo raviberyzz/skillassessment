@@ -1,0 +1,12 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/skillassessment",
+        "create path (nt:unstructured) /content/dam/skillassessment/jcr:content",
+        "set properties on /content/dam/skillassessment/jcr:content\n  set cq:conf{String} to /conf/skillassessment\n  set jcr:title{String} to \"Sunlife Skill Assessment\"\nend",
+		"create service user skill-assessment-user\n set ACL on /\n allow jcr:all for skill-assessment-user\n end\n",
+		"create path (sling:OrderedFolder) /var/skillassessment/assessmentreport\n",
+        "create path (sling:OrderedFolder) /var/skillassessment/upcomingassessment\n",
+        "create group assessmentparticipants with path /home/groups/participants\n",
+        "create group recruiters with path /home/groups/recruiters\n end"
+    ]
+}
